@@ -1,0 +1,13 @@
+FROM python:3.9-slim
+
+# Make Python see /app as top-level so "backend" is recognized
+ENV PYTHONPATH="/app"
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt && pip install pytest httpx
+
+# Copy the entire project into /app
+COPY . .
+
+CMD ["pytest", "--maxfail=1", "--disable-warnings"]
